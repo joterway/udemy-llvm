@@ -52,11 +52,14 @@ class EvaLLVM {
       auto result = gen(/* ast */);
 
       auto i32Result =
-        builder->CreateIntCast(result, builder->getInt32Ty(), true);
+        builder->CreatePtrToInt(result, builder->getInt32Ty());
       builder->CreateRet(i32Result);
     }
 
-    llvm::Value* gen(/* exp */) { return builder->getInt32(42); }
+    llvm::Value* gen(/* exp */) {
+      // return builder-getInt32(42);
+      return builder->CreateGlobalString("Hello world\n");
+    }
 
     llvm::Function* createFunction(const std::string& fnName,
                                  llvm::FunctionType* fnType) {
